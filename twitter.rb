@@ -97,4 +97,6 @@ if !keywords
 	exit 1
 end
 
+$logger.info "Starting on #{mode} mode for keywords: #{keywords}"
+
 send mode,keywords,rt
