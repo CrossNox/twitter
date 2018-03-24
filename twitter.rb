@@ -13,7 +13,7 @@ $logger = Logger.new(STDOUT)
 $logger.level = Logger::INFO
 
 def save_tweet(tweet,keyword)
-	_tweet = Tweet.create(text: tweet.text, 
+	_tweet = Tweet.create(text: tweet.full_text, 
 		user: tweet.user.screen_name,
 		date: tweet.created_at,
 		twitter_id: tweet.id,
