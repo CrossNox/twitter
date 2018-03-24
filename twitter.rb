@@ -29,8 +29,8 @@ end
 def download_keywords(keywords,_)
 
 	client = Twitter::REST::Client.new do |config|
-		config.consumer_key    = config_data['consumer_key']
-		config.consumer_secret = config_data['consumer_secret']
+		config.consumer_key    = $config_data['consumer_key']
+		config.consumer_secret = $config_data['consumer_secret']
 	end
 
 	keywords.each do |keyword|
@@ -50,10 +50,10 @@ end
 def stream_keywords(keywords,rt)
 
 	stream_client = Twitter::Streaming::Client.new do |config|
-		config.consumer_key    = config_data['consumer_key']
-		config.consumer_secret = config_data['consumer_secret']
-		config.access_token 	 = config_data['access_token']
-		config.access_token_secret = config_data['access_token_secret']
+		config.consumer_key    = $config_data['consumer_key']
+		config.consumer_secret = $config_data['consumer_secret']
+		config.access_token 	 = $config_data['access_token']
+		config.access_token_secret = $config_data['access_token_secret']
 	end
 
 	stream_client.filter(track: keywords.join(",")) do |object|
