@@ -57,7 +57,7 @@ def stream_keywords(keywords,rt)
 
 	stream_client.filter(track: keywords.join(",")) do |object|
 	  if object.is_a?(Twitter::Tweet) && (rt ? true : !object.retweet?)
-		save_tweet object,""
+		save_tweet object,"" unless Tweet.exists? twitter_id: tweet.id
 	  end
 	end
 end
