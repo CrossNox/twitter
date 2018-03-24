@@ -12,7 +12,7 @@ $config_data = YAML.load_file "keys.yml"
 $logger = Logger.new(STDOUT)
 $logger.level = Logger::INFO
 
-def save_tweet(tweet)
+def save_tweet(tweet,keyword)
 	_tweet = Tweet.create(text: tweet.text, 
 		user: tweet.user.screen_name,
 		date: tweet.created_at,
@@ -38,7 +38,7 @@ def download_keywords(keywords,_)
 		begin
 			client.search("#{keyword} -rt", lang: lang, count: 100).each do |tweet|
 				next if Tweet.exists? twitter_id: tweet.id
-				save_tweet tweet
+				save_tweet tweet,keyword
 			end
 		rescue Twitter::Error::TooManyRequests => error
 			sleep error.rate_limit.reset_in + 1
@@ -57,7 +57,7 @@ def stream_keywords(keywords,rt)
 
 	stream_client.filter(track: keywords.join(",")) do |object|
 	  if object.is_a?(Twitter::Tweet) && (rt ? true : object.retweeted?)
-		save_tweet object
+		save_tweet object,""
 	  end
 	end
 end
