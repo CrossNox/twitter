@@ -67,7 +67,7 @@ opts = GetoptLong.new(
 	['--stream','-s',GetoptLong::NO_ARGUMENT],
 	['--download','-d',GetoptLong::NO_ARGUMENT],
 	['--keywords','-k',GetoptLong::REQUIRED_ARGUMENT],
-	['--retweets','-rt',GetoptLong::NO_ARGUMENT],
+	['--retweets','-t',GetoptLong::NO_ARGUMENT],
 	)
 
 mode = nil
