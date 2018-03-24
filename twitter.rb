@@ -23,7 +23,7 @@ def save_tweet(tweet)
 		keyword: keyword,
 		user_location: tweet.user.location
 		)
-	$logger.info _tweet.attributes
+	$logger.info "#{tweet.user.screen_name}: #{tweet.text}"
 end
 
 def download_keywords(keywords,_)
@@ -48,7 +48,6 @@ def download_keywords(keywords,_)
 end
 
 def stream_keywords(keywords,rt)
-
 	stream_client = Twitter::Streaming::Client.new do |config|
 		config.consumer_key    = $config_data['consumer_key']
 		config.consumer_secret = $config_data['consumer_secret']
