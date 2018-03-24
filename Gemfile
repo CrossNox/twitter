@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+
+gem 'twitter'
+gem 'json'
+gem 'yaml'
+gem 'active_record'
+gem 'mysql2'
+gem 'activesupport'
+gem 'getoptlong'
+require 'logger'
