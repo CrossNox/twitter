@@ -3,9 +3,9 @@ require 'yaml'
 require 'json'
 require 'active_record'
 require 'active_support/all'
-require_relative 'model/model.rb'
 require 'getoptlong'
 require 'logger'
+require_relative 'model/model.rb'
 
 $config_data = YAML.load_file "keys.yml"
 
@@ -13,16 +13,18 @@ $logger = Logger.new(STDOUT)
 $logger.level = Logger::INFO
 
 def save_tweet(tweet,keyword)
-	_tweet = Tweet.create(text: tweet.full_text, 
+	_setter = {
+		text: tweet.full_text, 
 		user: tweet.user.screen_name,
 		date: tweet.created_at,
 		twitter_id: tweet.id,
-		geo: tweet.geo,
-		coordinates: tweet.place.bounding_box.coordinates,
-		place: tweet.place,
+		geo: tweet.geo.nil? ? nil : tweet.geo.to_s,
+		coordinates: tweet.place.bounding_box.coordinates.nil? ? nil : tweet.place.bounding_box.coordinates.to_s,
+		place: tweet.place.nil? ? nil : tweet.place.to_s,
 		keyword: keyword,
-		user_location: tweet.user.location
-		)
+		user_location: tweet.user.location.nil? ? nil : tweet.user.location.to_json.to_s
+	}
+	_tweet = Tweet.upsert({twitter_id: tweet.id},_setter)
 	$logger.info "#{tweet.user.screen_name}: #{tweet.text}"
 end
 
@@ -57,7 +59,7 @@ def stream_keywords(keywords,rt)
 
 	stream_client.filter(track: keywords.join(",")) do |object|
 	  if object.is_a?(Twitter::Tweet) && (rt ? true : !object.retweet?)
-		save_tweet object,"" unless Tweet.exists? twitter_id: object.id
+		save_tweet object,"" #unless Tweet.exists? twitter_id: object.id
 	  end
 	end
 end
