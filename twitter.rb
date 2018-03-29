@@ -20,9 +20,9 @@ def save_tweet(tweet,keyword)
 		twitter_id: tweet.id,
 		geo: tweet.geo.nil? ? nil : tweet.geo.to_s,
 		coordinates: tweet.place.bounding_box.coordinates.nil? ? nil : tweet.place.bounding_box.coordinates.to_s,
-		place: tweet.place.nil? ? nil : tweet.place.to_s,
+		place: tweet.place.nil? ? nil : tweet.place.to_s.truncate(100),
 		keyword: keyword,
-		user_location: tweet.user.location.nil? ? nil : tweet.user.location.to_json.to_s
+		user_location: tweet.user.location.nil? ? nil : tweet.user.location.to_s.truncate(100)
 	}
 	_tweet = Tweet.upsert({twitter_id: tweet.id},_setter)
 	$logger.info "#{tweet.user.screen_name}: #{tweet.text}"
